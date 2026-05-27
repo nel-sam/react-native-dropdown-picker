@@ -1,11 +1,5 @@
-declare module 'react-native-dropdown-picker' {
-  import {
-    Dispatch,
-    JSX,
-    PropsWithoutRef,
-    ReactElement,
-    SetStateAction,
-  } from 'react';
+declare module 'react-native-dropdown-picker-plus' {
+  import { Dispatch, JSX, PropsWithoutRef, ReactElement, SetStateAction } from 'react';
   import {
     FlatListProps,
     LayoutChangeEvent,
@@ -145,9 +139,7 @@ declare module 'react-native-dropdown-picker' {
   }
 
   export interface ListEmptyComponentPropsInterface {
-    ActivityIndicatorComponent: (
-      props: ActivityIndicatorComponentPropsInterface,
-    ) => JSX.Element;
+    ActivityIndicatorComponent: (props: ActivityIndicatorComponentPropsInterface) => JSX.Element;
     listMessageContainer: StyleProp<ViewStyle>;
     listMessageTextStyle: StyleProp<TextStyle>;
     loading: boolean;
@@ -158,23 +150,20 @@ declare module 'react-native-dropdown-picker' {
 
   export interface DropDownPickerBaseProps<T extends ValueType> {
     items: Array<ItemType<T>>;
-    setItems?: Dispatch<SetStateAction<Array<ItemType<T>>>>;
+    setItems?:
+      | Dispatch<SetStateAction<Array<ItemType<T>>>>
+      | ((getItems: () => Array<ItemType<T>>) => void);
     open: boolean;
-    setOpen: Dispatch<SetStateAction<boolean>>;
+    setOpen: Dispatch<SetStateAction<boolean>> | ((getIsOpen: () => boolean) => void);
     activityIndicatorColor?: string;
-    ActivityIndicatorComponent?: (
-      props: ActivityIndicatorComponentPropsInterface,
-    ) => JSX.Element;
+    ActivityIndicatorComponent?: (props: ActivityIndicatorComponentPropsInterface) => JSX.Element;
     activityIndicatorSize?: number;
+    allowFontScaling?: boolean;
     addCustomItem?: boolean;
-    ArrowDownIconComponent?: (props: {
-      style: StyleProp<ViewStyle>;
-    }) => JSX.Element;
+    ArrowDownIconComponent?: (props: { style: StyleProp<ViewStyle> }) => JSX.Element;
     arrowIconContainerStyle?: StyleProp<ViewStyle>;
     arrowIconStyle?: StyleProp<ViewStyle>;
-    ArrowUpIconComponent?: (props: {
-      style: StyleProp<ViewStyle>;
-    }) => JSX.Element;
+    ArrowUpIconComponent?: (props: { style: StyleProp<ViewStyle> }) => JSX.Element;
     autoScroll?: boolean;
     badgeColors?: Array<string> | string;
     badgeDotColors?: Array<string> | string;
@@ -186,11 +175,10 @@ declare module 'react-native-dropdown-picker' {
     bottomOffset?: number;
     categorySelectable?: boolean;
     closeAfterSelecting?: boolean;
-    CloseIconComponent?: (props: {
-      style: StyleProp<ViewStyle>;
-    }) => JSX.Element;
+    CloseIconComponent?: (props: { style: StyleProp<ViewStyle> }) => JSX.Element;
     closeIconContainerStyle?: StyleProp<ViewStyle>;
     closeIconStyle?: StyleProp<ViewStyle>;
+    closeIconTestID?: string;
     closeOnBackPressed?: boolean;
     containerProps?: ViewProps;
     containerStyle?: StyleProp<ViewStyle>;
@@ -204,22 +192,28 @@ declare module 'react-native-dropdown-picker' {
     disableLocalSearch?: boolean;
     dropDownContainerStyle?: StyleProp<ViewStyle>;
     dropDownDirection?: DropDownDirectionType;
+    dropdownLabelContainerStyle?: StyleProp<ViewStyle>;
+    dropdownLabelTextStyle?: StyleProp<TextStyle>;
+    dropDownLabelY?: number;
     extendableBadgeContainer?: boolean;
     flatListProps?: Partial<FlatListProps<ItemType<T>>>;
+    hidden?: boolean;
+    hideListItemsIcons?: boolean;
     hideSelectedItemIcon?: boolean;
     iconContainerStyle?: StyleProp<ViewStyle>;
     itemKey?: string;
     itemProps?: TouchableOpacityProps;
     itemSeparator?: boolean;
     itemSeparatorStyle?: StyleProp<ViewStyle>;
+    label?: string;
     labelProps?: TextProps;
     labelStyle?: StyleProp<TextStyle>;
     language?: LanguageType;
     listChildContainerStyle?: StyleProp<ViewStyle>;
     listChildLabelStyle?: StyleProp<TextStyle>;
-    ListEmptyComponent?: (
-      props: ListEmptyComponentPropsInterface,
-    ) => JSX.Element;
+    ListEmptyComponent?: (props: ListEmptyComponentPropsInterface) => JSX.Element;
+    leftComponent?: JSX.Element;
+    leftComponentIndentLabel?: boolean;
     listItemContainerStyle?: StyleProp<ViewStyle>;
     listItemLabelStyle?: StyleProp<TextStyle>;
     listMessageContainerStyle?: StyleProp<ViewStyle>;
@@ -236,6 +230,7 @@ declare module 'react-native-dropdown-picker' {
     modalProps?: ModalProps;
     modalTitle?: string;
     modalTitleStyle?: StyleProp<TextStyle>;
+    modalTitleContainerStyle?: StyleProp<ViewStyle>;
     mode?: ModeType;
     multipleText?: string;
     onChangeSearchText?: (text: string) => void;
@@ -282,7 +277,7 @@ declare module 'react-native-dropdown-picker' {
     onChangeValue?: (value: T | null) => void;
     onSelectItem?: (item: ItemType<T>) => void;
     value: T | null;
-    setValue: Dispatch<SetStateAction<T | null>>;
+    setValue: Dispatch<SetStateAction<T | null>> | ((getItems: () => T | null) => void);
   }
 
   interface DropDownPickerMultipleProps<T extends ValueType> {
@@ -290,23 +285,19 @@ declare module 'react-native-dropdown-picker' {
     onChangeValue?: (value: Array<T> | null) => void;
     onSelectItem?: (items: Array<ItemType<T>>) => void;
     value: Array<T> | null;
-    setValue: Dispatch<SetStateAction<Array<T> | null>>;
+    setValue:
+      | Dispatch<SetStateAction<Array<T> | null>>
+      | ((getItems: () => Array<T> | null) => void);
   }
 
   interface DropDownPickerInterface {
     addTheme: (name: string, theme: ThemeNameType) => void;
-    addTranslation: (
-      language: string,
-      translation: TranslationInterface,
-    ) => void;
+    addTranslation: (language: string, translation: TranslationInterface) => void;
     DROPDOWN_DIRECTION: DropDownDirectionType;
     LANGUAGE: LanguageType;
     LIST_MODE: ListModeInterface;
     MODE: ModeInterface;
-    modifyTranslation: (
-      language: string,
-      translation: TranslationInterface,
-    ) => void;
+    modifyTranslation: (language: string, translation: TranslationInterface) => void;
     SCHEMA: SchemaInterface;
     setDropDownDirection: (direction: DropDownDirectionType) => void;
     setLanguage: (language: string) => void;
