@@ -1,4 +1,4 @@
-declare module 'react-native-dropdown-picker-plus' {
+declare module '@nel-sam/react-native-dropdown-picker-plus' {
   import { Dispatch, JSX, PropsWithoutRef, ReactElement, SetStateAction } from 'react';
   import {
     FlatListProps,
